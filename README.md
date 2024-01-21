@@ -1,3 +1,5 @@
+BIP-2037 Koray Eriş 
+
 Öğrenci Bilgi Sistemi, öğrenci, ders ve öğretim görevlisi verilerini yöneten bir uygulamayı kapsayan bir projedir. Aşağıda, projenin kullanımına dair bilgiler bulunmaktadır.
 
 Kullanım Ana Menüsü:
