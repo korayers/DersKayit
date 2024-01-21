@@ -6,128 +6,128 @@ import java.io.FileWriter;
 import java.io.IOException;
 import org.json.JSONObject;
 
-class StudentForm extends JFrame {
-    private JTextField studentNumberField, studentNameField, studentSurnameField, studentDepartmentField;
-    private JComboBox<String> coursesComboBox;
-    private JButton saveButton, searchButton;
-    private JTextField searchField;
-    private DefaultTableModel tableModel;
-    private JTable studentsTable;
+class OgrenciForm extends JFrame {
+    private JTextField ogrenciNumaraAlanı, ogrenciAdiAlanı, ogrenciSoyadiAlanı, ogrenciBolumAlanı;
+    private JComboBox<String> derslerComboBox;
+    private JButton kaydetButonu, araButonu;
+    private JTextField aramaAlanı;
+    private DefaultTableModel tabloModel;
+    private JTable ogrenciTablosu;
 
-    public StudentForm() {
+    public OgrenciForm() {
         initializeUI();
         setLayout(new FlowLayout());
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        createForm();
-        createTable();
-        createButtons();
-        createListeners();
-        addComponentsToFrame();
+        formuOlustur();
+        tabloyuOlustur();
+        butonlariOlustur();
+        dinleyicileriOlustur();
+        frameEkle();
     }
 
     private void initializeUI() {
-        setTitle("Student Form");
+        setTitle("Öğrenci Formu");
         setSize(400, 300);
     }
 
-    private void createForm() {
-        studentNumberField = new JTextField(20);
-        studentNameField = new JTextField(20);
-        studentSurnameField = new JTextField(20);
-        studentDepartmentField = new JTextField(20);
-        coursesComboBox = new JComboBox<>();
+    private void formuOlustur() {
+        ogrenciNumaraAlanı = new JTextField(20);
+        ogrenciAdiAlanı = new JTextField(20);
+        ogrenciSoyadiAlanı = new JTextField(20);
+        ogrenciBolumAlanı = new JTextField(20);
+        derslerComboBox = new JComboBox<>();
     }
 
-    private void createTable() {
-        String[] columnNames = {"Student Number", "Student Name", "Student Surname", "Department", "Courses"};
-        tableModel = new DefaultTableModel(columnNames, 0);
-        studentsTable = new JTable(tableModel);
+    private void tabloyuOlustur() {
+        String[] sutunAdlari = {"Öğrenci Numarası", "Öğrenci Adı", "Öğrenci Soyadı", "Bölüm", "Dersler"};
+        tabloModel = new DefaultTableModel(sutunAdlari, 0);
+        ogrenciTablosu = new JTable(tabloModel);
     }
 
-    private void createButtons() {
-        saveButton = new JButton("Save");
-        searchButton = new JButton("Search");
+    private void butonlariOlustur() {
+        kaydetButonu = new JButton("Kaydet");
+        araButonu = new JButton("Ara");
     }
 
-    private void createListeners() {
-        saveButton.addActionListener(e -> saveStudentData());
-        searchButton.addActionListener(e -> searchStudentData());
+    private void dinleyicileriOlustur() {
+        kaydetButonu.addActionListener(e -> ogrenciBilgisiniKaydet());
+        araButonu.addActionListener(e -> ogrenciBilgisiAra());
     }
 
-    private void addComponentsToFrame() {
-        addFormFields();
-        addSearchPanel();
-        addTable();
+    private void frameEkle() {
+        formAlanlariniEkle();
+        aramaPaneliniEkle();
+        tabloyuEkle();
     }
 
-    private void addFormFields() {
-        add(new JLabel("Student Number:"));
-        add(studentNumberField);
-        add(new JLabel("Student Name:"));
-        add(studentNameField);
-        add(new JLabel("Student Surname:"));
-        add(studentSurnameField);
-        add(new JLabel("Department:"));
-        add(studentDepartmentField);
-        add(new JLabel("Courses:"));
-        add(coursesComboBox);
-        add(saveButton);
+    private void formAlanlariniEkle() {
+        add(new JLabel("Öğrenci Numarası:"));
+        add(ogrenciNumaraAlanı);
+        add(new JLabel("Öğrenci Adı:"));
+        add(ogrenciAdiAlanı);
+        add(new JLabel("Öğrenci Soyadı:"));
+        add(ogrenciSoyadiAlanı);
+        add(new JLabel("Bölüm:"));
+        add(ogrenciBolumAlanı);
+        add(new JLabel("Dersler:"));
+        add(derslerComboBox);
+        add(kaydetButonu);
     }
 
-    private void addSearchPanel() {
-        JPanel searchPanel = new JPanel();
-        searchField = new JTextField(20);
-        searchPanel.add(searchField);
-        searchPanel.add(searchButton);
-        add(searchPanel, BorderLayout.NORTH);
+    private void aramaPaneliniEkle() {
+        JPanel aramaPaneli = new JPanel();
+        aramaAlanı = new JTextField(20);
+        aramaPaneli.add(aramaAlanı);
+        aramaPaneli.add(araButonu);
+        add(aramaPaneli, BorderLayout.NORTH);
     }
 
-    private void addTable() {
-        add(new JScrollPane(studentsTable), BorderLayout.CENTER);
+    private void tabloyuEkle() {
+        add(new JScrollPane(ogrenciTablosu), BorderLayout.CENTER);
     }
 
-    private void saveStudentData() {
-        String studentNumber = studentNumberField.getText();
-        String studentName = studentNameField.getText();
-        String studentSurname = studentSurnameField.getText();
-        String studentDepartment = studentDepartmentField.getText();
-        String selectedCourse = (String) coursesComboBox.getSelectedItem();
+    private void ogrenciBilgisiniKaydet() {
+        String ogrenciNumara = ogrenciNumaraAlanı.getText();
+        String ogrenciAdi = ogrenciAdiAlanı.getText();
+        String ogrenciSoyadi = ogrenciSoyadiAlanı.getText();
+        String ogrenciBolum = ogrenciBolumAlanı.getText();
+        String secilenDers = (String) derslerComboBox.getSelectedItem();
 
-        JSONObject studentData = new JSONObject();
-        studentData.put("studentNumber", studentNumber);
-        studentData.put("studentName", studentName);
-        studentData.put("studentSurname", studentSurname);
-        studentData.put("studentDepartment", studentDepartment);
-        studentData.put("selectedCourse", selectedCourse);
+        JSONObject ogrenciBilgisi = new JSONObject();
+        ogrenciBilgisi.put("ogrenciNumara", ogrenciNumara);
+        ogrenciBilgisi.put("ogrenciAdi", ogrenciAdi);
+        ogrenciBilgisi.put("ogrenciSoyadi", ogrenciSoyadi);
+        ogrenciBilgisi.put("ogrenciBolum", ogrenciBolum);
+        ogrenciBilgisi.put("secilenDers", secilenDers);
 
-        try (FileWriter file = new FileWriter(studentNumber + ".json")) {
-            file.write(studentData.toString());
-            file.flush();
+        try (FileWriter dosya = new FileWriter(ogrenciNumara + ".json")) {
+            dosya.write(ogrenciBilgisi.toString());
+            dosya.flush();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
 
-        JOptionPane.showMessageDialog(this, "Student Saved: " + studentNumber);
-        tableModel.addRow(new Object[]{studentNumber, studentName, studentSurname, studentDepartment, selectedCourse});
-        clearForm();
+        JOptionPane.showMessageDialog(this, "Öğrenci Kaydedildi: " + ogrenciNumara);
+        tabloModel.addRow(new Object[]{ogrenciNumara, ogrenciAdi, ogrenciSoyadi, ogrenciBolum, secilenDers});
+        formuTemizle();
     }
 
-    private void searchStudentData() {
-        String searchText = searchField.getText().toLowerCase();
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
-        studentsTable.setRowSorter(sorter);
-        sorter.setRowFilter(RowFilter.regexFilter(searchText));
+    private void ogrenciBilgisiAra() {
+        String aramaMetni = aramaAlanı.getText().toLowerCase();
+        TableRowSorter<DefaultTableModel> siralayici = new TableRowSorter<>(tabloModel);
+        ogrenciTablosu.setRowSorter(siralayici);
+        siralayici.setRowFilter(RowFilter.regexFilter(aramaMetni));
     }
 
-    private void clearForm() {
-        studentNumberField.setText("");
-        studentNameField.setText("");
-        studentSurnameField.setText("");
-        studentDepartmentField.setText("");
-        coursesComboBox.setSelectedIndex(0); // Select the first item
+    private void formuTemizle() {
+        ogrenciNumaraAlanı.setText("");
+        ogrenciAdiAlanı.setText("");
+        ogrenciSoyadiAlanı.setText("");
+        ogrenciBolumAlanı.setText("");
+        derslerComboBox.setSelectedIndex(0); // İlk öğeyi seç
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new StudentForm().setVisible(true));
+        SwingUtilities.invokeLater(() -> new OgrenciForm().setVisible(true));
     }
 }
