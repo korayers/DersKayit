@@ -1,3 +1,5 @@
+Koray Eriş 20210108050 BIP2037 
+
 Öğrenci Bilgi Sistemi
 Bu proje, öğrenci, ders ve öğretim görevlisi bilgilerini yöneten bir öğrenci bilgi sistemi uygulamasını içermektedir. Aşağıda proje bileşenlerinin nasıl kullanılacağına dair bilgiler bulunmaktadır.
 
