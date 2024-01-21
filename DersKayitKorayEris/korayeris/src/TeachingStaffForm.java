@@ -10,157 +10,161 @@ import java.util.Vector;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-class TeachingStaffForm extends JFrame {
-    private JTextField teacherIdField, firstNameField, lastNameField, searchField;
-    private JComboBox<String> departmentComboBox;
-    private JList<String> taughtCoursesList;
-    private JButton saveButton, searchButton;
-    private DefaultListModel<String> courseListModel;
-    private JTable teachingStaffTable;
-    private DefaultTableModel tableModel;
+class OgretimGorevlisiFormu extends JFrame {
+    private JTextField ogretimGorevlisiIdAlani, adAlani, soyadAlani, aramaAlani;
+    private JComboBox<String> bolumComboBox;
+    private JList<String> verdigiDerslerListesi;
+    private JButton kaydetButonu, araButonu;
+    private DefaultListModel<String> dersListModel;
+    private JTable ogretimGorevlisiTablosu;
+    private DefaultTableModel tabloModeli;
 
-    public TeachingStaffForm() {
-        setTitle("Teaching Staff Form");
+    public OgretimGorevlisiFormu() {
+        setTitle("Öğretim Görevlisi Formu");
         setSize(600, 400);
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
-        // Search area
-        JPanel searchPanel = new JPanel();
-        searchField = new JTextField(20);
-        searchButton = new JButton("Search");
-        searchPanel.add(searchField);
-        searchPanel.add(searchButton);
+       
+        JPanel aramaPaneli = new JPanel();
+        aramaAlani = new JTextField(20);
+        araButonu = new JButton("Ara");
+        aramaPaneli.add(aramaAlani);
+        aramaPaneli.add(araButonu);
 
-        // Form fields
-        JPanel formPanel = new JPanel();
-        formPanel.setLayout(new GridLayout(5, 2, 5, 5));
-        teacherIdField = new JTextField();
-        firstNameField = new JTextField();
-        lastNameField = new JTextField();
-        departmentComboBox = new JComboBox<>(new String[] {"Computer Engineering", "Electrical-Electronics Engineering"});
-        courseListModel = new DefaultListModel<>();
-        taughtCoursesList = new JList<>(courseListModel);
-        saveButton = new JButton("Save");
+        
+        JPanel formPaneli = new JPanel();
+        formPaneli.setLayout(new GridLayout(5, 2, 5, 5));
+        ogretimGorevlisiIdAlani = new JTextField();
+        adAlani = new JTextField();
+        soyadAlani = new JTextField();
+        bolumComboBox = new JComboBox<>(new String[] {"Bilgisayar Mühendisliği", "Elektrik-Elektronik Mühendisliği"});
+        dersListModel = new DefaultListModel<>();
+        verdigiDerslerListesi = new JList<>(dersListModel);
+        kaydetButonu = new JButton("Kaydet");
 
-        // Sample courses
-        courseListModel.addElement("Gorsel Programlama");
-        courseListModel.addElement("Nesne Tababnlı Programlama");
-        courseListModel.addElement("Isletim Sistemleri");
-        courseListModel.addElement("Web Programlama");
-        courseListModel.addElement("Edebiyat");
-        courseListModel.addElement("Matematik");
+        // Farklı üniversite bilgisayar bölümü dersleri
+        dersListModel.addElement("Algoritma ve Veri Yapıları");
+        dersListModel.addElement("Bilgisayar Ağları");
+        dersListModel.addElement("Veritabanı Yönetim Sistemleri");
+        dersListModel.addElement("Mobil Uygulama Geliştirme");
+        dersListModel.addElement("Bilgisayar Grafikleri");
+        dersListModel.addElement("Yapay Zeka");
 
-        taughtCoursesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        verdigiDerslerListesi.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-        formPanel.add(new JLabel("Teacher ID:"));
-        formPanel.add(teacherIdField);
-        formPanel.add(new JLabel("First Name:"));
-        formPanel.add(firstNameField);
-        formPanel.add(new JLabel("Last Name:"));
-        formPanel.add(lastNameField);
-        formPanel.add(new JLabel("Department:"));
-        formPanel.add(departmentComboBox);
-        formPanel.add(new JLabel("Taught Courses:"));
-        formPanel.add(new JScrollPane(taughtCoursesList));
-        formPanel.add(saveButton);
+        formPaneli.add(new JLabel("Öğretim Görevlisi ID:"));
+        formPaneli.add(ogretimGorevlisiIdAlani);
+        formPaneli.add(new JLabel("Ad:"));
+        formPaneli.add(adAlani);
+        formPaneli.add(new JLabel("Soyad:"));
+        formPaneli.add(soyadAlani);
+        formPaneli.add(new JLabel("Bölüm:"));
+        formPaneli.add(bolumComboBox);
+        formPaneli.add(new JLabel("Verdiği Dersler:"));
+        formPaneli.add(new JScrollPane(verdigiDerslerListesi));
+        formPaneli.add(kaydetButonu);
 
-        // Table
-        String[] columnNames = {"Teacher ID", "First Name", "Last Name", "Department", "Taught Courses"};
-        tableModel = new DefaultTableModel(columnNames, 0);
-        teachingStaffTable = new JTable(tableModel);
+     
+        String[] sutunAdlari = {"Öğretim Görevlisi ID", "Ad", "Soyad", "Bölüm", "Verdiği Dersler"};
+        tabloModeli = new DefaultTableModel(sutunAdlari, 0);
+        ogretimGorevlisiTablosu = new JTable(tabloModeli);
 
-        add(searchPanel, BorderLayout.NORTH);
-        add(formPanel, BorderLayout.WEST);
-        add(new JScrollPane(teachingStaffTable), BorderLayout.CENTER);
+        add(aramaPaneli, BorderLayout.NORTH);
+        add(formPaneli, BorderLayout.WEST);
+        add(new JScrollPane(ogretimGorevlisiTablosu), BorderLayout.CENTER);
 
-        saveButton.addActionListener(new ActionListener() {
+        kaydetButonu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                saveTeachingStaffData();
+                ogretimGorevlisiVerisiKaydet();
             }
         });
 
-        searchButton.addActionListener(new ActionListener() {
+        araButonu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchTeachingStaff();
+                ogretimGorevlisiVerisiAra();
             }
         });
     }
 
-    private void saveTeachingStaffData() {
-        String teacherId = teacherIdField.getText();
-        String firstName = firstNameField.getText();
-        String lastName = lastNameField.getText();
-        String department = (String) departmentComboBox.getSelectedItem();
+    private void ogretimGorevlisiVerisiKaydet() {
+        String ogretimGorevlisiId = ogretimGorevlisiIdAlani.getText();
+        String ad = adAlani.getText();
+        String soyad = soyadAlani.getText();
+        String bolum = (String) bolumComboBox.getSelectedItem();
 
-        JSONArray taughtCourses = new JSONArray();
-        for (String course : taughtCoursesList.getSelectedValuesList()) {
-            taughtCourses.put(course);
+        JSONArray verdigiDersler = new JSONArray();
+        for (String ders : verdigiDerslerListesi.getSelectedValuesList()) {
+            verdigiDersler.put(ders);
         }
 
-        JSONObject teachingStaffData = new JSONObject();
-        teachingStaffData.put("teacherId", teacherId);
-        teachingStaffData.put("firstName", firstName);
-        teachingStaffData.put("lastName", lastName);
-        teachingStaffData.put("department", department);
-        teachingStaffData.put("taughtCourses", taughtCourses);
+        JSONObject ogretimGorevlisiVerisi = new JSONObject();
+        ogretimGorevlisiVerisi.put("ogretimGorevlisiId", ogretimGorevlisiId);
+        ogretimGorevlisiVerisi.put("ad", ad);
+        ogretimGorevlisiVerisi.put("soyad", soyad);
+        ogretimGorevlisiVerisi.put("bolum", bolum);
+        ogretimGorevlisiVerisi.put("verdigiDersler", verdigiDersler);
 
-        try (FileWriter file = new FileWriter(teacherId + ".json")) {
-            file.write(teachingStaffData.toString());
-            file.flush();
+        try (FileWriter dosya = new FileWriter(ogretimGorevlisiId + ".json")) {
+            dosya.write(ogretimGorevlisiVerisi.toString());
+            dosya.flush();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
 
-        // Add data to the table
-        Vector<String> row = new Vector<>();
-        row.add(teacherId);
-        row.add(firstName);
-        row.add(lastName);
-        row.add(department);
-        row.add(taughtCourses.toString());
-        tableModel.addRow(row);
+      
+        Vector<String> satir = new Vector<>();
+        satir.add(ogretimGorevlisiId);
+        satir.add(ad);
+        satir.add(soyad);
+        satir.add(bolum);
+        satir.add(verdigiDersler.toString());
+        tabloModeli.addRow(satir);
 
-        JOptionPane.showMessageDialog(this, "Teaching Staff Saved: " + teacherId);
-        clearForm();
+        JOptionPane.showMessageDialog(this, "Öğretim Görevlisi Kaydedildi: " + ogretimGorevlisiId);
+        formuTemizle();
     }
 
-    private void searchTeachingStaff() {
-        String searchText = searchField.getText().toLowerCase();
-        if (searchText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Search text cannot be empty.");
+    private void ogretimGorevlisiVerisiAra() {
+        String aramaMetni = aramaAlani.getText().toLowerCase();
+        if (aramaMetni.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Arama metni boş olamaz.");
             return;
         }
 
-        for (int i = 0; i < tableModel.getRowCount(); i++) {
-            boolean matchFound = false;
-            for (int j = 0; j < tableModel.getColumnCount(); j++) {
-                String cellValue = tableModel.getValueAt(i, j).toString().toLowerCase();
-                if (cellValue.contains(searchText)) {
-                    matchFound = true;
+        for (int i = 0; i < tabloModeli.getRowCount(); i++) {
+            boolean eslesmeBulundu = false;
+            for (int j = 0; j < tabloModeli.getColumnCount(); j++) {
+                String hucreDegeri = tabloModeli.getValueAt(i, j).toString().toLowerCase();
+                if (hucreDegeri.contains(aramaMetni)) {
+                    eslesmeBulundu = true;
                     break;
                 }
             }
 
-            if (!matchFound) {
-                // If no match found, hide this row
-                ((DefaultTableModel) teachingStaffTable.getModel()).removeRow(i);
+            if (!eslesmeBulundu) {
+
+                ((DefaultTableModel) ogretimGorevlisiTablosu.getModel()).removeRow(i);
                 i--;
             }
         }
 
-        if (teachingStaffTable.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "No results found for the search.");
+        if (ogretimGorevlisiTablosu.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Arama için sonuç bulunamadı.");
         }
     }
 
-    private void clearForm() {
-        teacherIdField.setText("");
-        firstNameField.setText("");
-        lastNameField.setText("");
-        departmentComboBox.setSelectedIndex(0);
-        taughtCoursesList.clearSelection();
+    private void formuTemizle() {
+        ogretimGorevlisiIdAlani.setText("");
+        adAlani.setText("");
+        soyadAlani.setText("");
+        bolumComboBox.setSelectedIndex(0);
+        verdigiDerslerListesi.clearSelection();
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new OgretimGorevlisiFormu().setVisible(true));
     }
 }
