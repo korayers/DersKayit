@@ -3,59 +3,59 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MainForm extends JFrame {
-    private JButton courseButton;
-    private JButton studentButton;
-    private JButton instructorButton;
+public class AnaForm extends JFrame {
+    private JButton dersButonu;
+    private JButton ogrenciButonu;
+    private JButton ogretmenButonu;
 
-    public MainForm() {
+    public AnaForm() {
         initializeUI();
         setLayout(new FlowLayout());
-        createButtons();
-        addButtonsToFrame();
-        addListeners();
+        butonlariOlustur();
+        frameEkle();
+        dinleyicileriEkle();
     }
 
     private void initializeUI() {
-        setTitle("Main Menu");
+        setTitle("Ana Menü");
         setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    private void createButtons() {
-        courseButton = new JButton("Course Form");
-        studentButton = new JButton("Student Form");
-        instructorButton = new JButton("Instructor Form");
+    private void butonlariOlustur() {
+        dersButonu = new JButton("Ders Formu");
+        ogrenciButonu = new JButton("Öğrenci Formu");
+        ogretmenButonu = new JButton("Öğretmen Formu");
     }
 
-    private void addButtonsToFrame() {
-        add(courseButton);
-        add(studentButton);
-        add(instructorButton);
+    private void frameEkle() {
+        add(dersButonu);
+        add(ogrenciButonu);
+        add(ogretmenButonu);
     }
 
-    private void addListeners() {
-        courseButton.addActionListener(e -> openCourseForm());
-        studentButton.addActionListener(e -> openStudentForm());
-        instructorButton.addActionListener(e -> openInstructorForm());
+    private void dinleyicileriEkle() {
+        dersButonu.addActionListener(e -> dersFormunuAc());
+        ogrenciButonu.addActionListener(e -> ogrenciFormunuAc());
+        ogretmenButonu.addActionListener(e -> ogretmenFormunuAc());
     }
 
-    private void openCourseForm() {
-        CourseForm courseForm = new CourseForm();
-        courseForm.setVisible(true);
+    private void dersFormunuAc() {
+        DersFormu dersFormu = new DersFormu();
+        dersFormu.setVisible(true);
     }
 
-    private void openStudentForm() {
-        StudentForm studentForm = new StudentForm();
-        studentForm.setVisible(true);
+    private void ogrenciFormunuAc() {
+        OgrenciForm ogrenciFormu = new OgrenciForm();
+        ogrenciFormu.setVisible(true);
     }
 
-    private void openInstructorForm() {
-        InstructorForm instructorForm = new InstructorForm();
-        instructorForm.setVisible(true);
+    private void ogretmenFormunuAc() {
+        OgretmenFormu ogretmenFormu = new OgretmenFormu();
+        ogretmenFormu.setVisible(true);
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MainForm().setVisible(true));
+        SwingUtilities.invokeLater(() -> new AnaForm().setVisible(true));
     }
 }
