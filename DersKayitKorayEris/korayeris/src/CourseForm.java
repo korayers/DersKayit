@@ -1,7 +1,6 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,107 +8,107 @@ import java.io.FileWriter;
 import java.io.IOException;
 import org.json.JSONObject;
 
-class CourseForm extends JFrame {
-    private JTextField courseCodeField, courseNameField, courseTermField, instructorField, searchField;
-    private JButton saveButton, searchButton;
-    private DefaultTableModel tableModel;
-    private JTable coursesTable;
+class DersFormu extends JFrame {
+    private JTextField dersKoduAlani, dersAdiAlani, dersDonemAlani, ogretmenAlani, araField;
+    private JButton kaydetButonu, araButonu;
+    private DefaultTableModel tabloModel;
+    private JTable derslerTablosu;
 
-    public CourseForm() {
-        setTitle("Course Form");
+    public DersFormu() {
+        setTitle("Ders Formu");
         setSize(400, 300);
         setLayout(new FlowLayout());
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
-        courseCodeField = new JTextField(20);
-        courseNameField = new JTextField(20);
-        courseTermField = new JTextField(20);
-        instructorField = new JTextField(20);
-        saveButton = new JButton("Save");
+        dersKoduAlani = new JTextField(20);
+        dersAdiAlani = new JTextField(20);
+        dersDonemAlani = new JTextField(20);
+        ogretmenAlani = new JTextField(20);
+        kaydetButonu = new JButton("Kaydet");
 
-        add(new JLabel("Course Code:"));
-        add(courseCodeField);
-        add(new JLabel("Course Name:"));
-        add(courseNameField);
-        add(new JLabel("Course Term:"));
-        add(courseTermField);
-        add(new JLabel("Instructor:"));
-        add(instructorField);
-        add(saveButton);
+        add(new JLabel("Ders Kodu:"));
+        add(dersKoduAlani);
+        add(new JLabel("Ders Adı:"));
+        add(dersAdiAlani);
+        add(new JLabel("Ders Dönemi:"));
+        add(dersDonemAlani);
+        add(new JLabel("Öğretmen:"));
+        add(ogretmenAlani);
+        add(kaydetButonu);
 
-        // Search area
-        JPanel searchPanel = new JPanel();
-        searchField = new JTextField(20);
-        searchButton = new JButton("Search");
-        searchPanel.add(searchField);
-        searchPanel.add(searchButton);
+        // Arama alanı
+        JPanel araPanel = new JPanel();
+        araField = new JTextField(20);
+        araButonu = new JButton("Ara");
+        araPanel.add(araField);
+        araPanel.add(araButonu);
 
-        // Table
-        String[] columnNames = {"Course Code", "Course Name", "Course Term", "Instructor"};
-        tableModel = new DefaultTableModel(columnNames, 0);
-        coursesTable = new JTable(tableModel);
+        // Tablo
+        String[] kolonIsimleri = {"Ders Kodu", "Ders Adı", "Ders Dönemi", "Öğretmen"};
+        tabloModel = new DefaultTableModel(kolonIsimleri, 0);
+        derslerTablosu = new JTable(tabloModel);
 
-        add(searchPanel, BorderLayout.NORTH);
-        add(new JScrollPane(coursesTable), BorderLayout.CENTER);
+        add(araPanel, BorderLayout.NORTH);
+        add(new JScrollPane(derslerTablosu), BorderLayout.CENTER);
 
-        saveButton.addActionListener(new ActionListener() {
+        kaydetButonu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                saveCourseData();
+                dersVerisiniKaydet();
             }
         });
 
-        searchButton.addActionListener(new ActionListener() {
+        araButonu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchCourseData();
+                dersVerisiAra();
             }
         });
 
-        saveButton.addActionListener(new ActionListener() {
+        kaydetButonu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                saveCourseData();
+                dersVerisiniKaydet();
             }
         });
     }
 
-    private void saveCourseData() {
-        String courseCode = courseCodeField.getText();
-        String courseName = courseNameField.getText();
-        String courseTerm = courseTermField.getText();
-        String instructor = instructorField.getText();
+    private void dersVerisiniKaydet() {
+        String dersKodu = dersKoduAlani.getText();
+        String dersAdi = dersAdiAlani.getText();
+        String dersDonemi = dersDonemAlani.getText();
+        String ogretmen = ogretmenAlani.getText();
 
-        JSONObject courseData = new JSONObject();
-        courseData.put("courseCode", courseCode);
-        courseData.put("courseName", courseName);
-        courseData.put("courseTerm", courseTerm);
-        courseData.put("instructor", instructor);
+        JSONObject dersVerisi = new JSONObject();
+        dersVerisi.put("dersKodu", dersKodu);
+        dersVerisi.put("dersAdi", dersAdi);
+        dersVerisi.put("dersDonemi", dersDonemi);
+        dersVerisi.put("ogretmen", ogretmen);
 
-        try (FileWriter file = new FileWriter(courseCode + ".json")) {
-            file.write(courseData.toString());
-            file.flush();
+        try (FileWriter dosya = new FileWriter(dersKodu + ".json")) {
+            dosya.write(dersVerisi.toString());
+            dosya.flush();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
 
-        JOptionPane.showMessageDialog(this, "Course Saved: " + courseCode);
-        tableModel.addRow(new Object[]{courseCode, courseName, courseTerm, instructor});
-        SharedData.courseList.add(courseCode + " - " + courseName);
-        clearForm();
+        JOptionPane.showMessageDialog(this, "Ders Kaydedildi: " + dersKodu);
+        tabloModel.addRow(new Object[]{dersKodu, dersAdi, dersDonemi, ogretmen});
+        SharedData.dersListesi.add(dersKodu + " - " + dersAdi);
+        formuTemizle();
     }
 
-    private void searchCourseData() {
-        String searchText = searchField.getText().toLowerCase();
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
-        coursesTable.setRowSorter(sorter);
-        sorter.setRowFilter(RowFilter.regexFilter(searchText));
+    private void dersVerisiAra() {
+        String aramaMetni = araField.getText().toLowerCase();
+        TableRowSorter<DefaultTableModel> siralayici = new TableRowSorter<>(tabloModel);
+        derslerTablosu.setRowSorter(siralayici);
+        siralayici.setRowFilter(RowFilter.regexFilter(aramaMetni));
     }
 
-    private void clearForm() {
-        courseCodeField.setText("");
-        courseNameField.setText("");
-        courseTermField.setText("");
-        instructorField.setText("");
+    private void formuTemizle() {
+        dersKoduAlani.setText("");
+        dersAdiAlani.setText("");
+        dersDonemAlani.setText("");
+        ogretmenAlani.setText("");
     }
 }
